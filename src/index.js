@@ -1,13 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-const Temp = () => {
-  return (
-    <h1>Hello from React!</h1>
-  );
-};
+import App from './App';
 
 ReactDOM.render(
-  <Temp />,
+  <App />,
   document.getElementById('app')
 );
