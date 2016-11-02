@@ -17,7 +17,7 @@ class App extends React.Component {
     this.setState({
       red: ReactDOM.findDOMNode(this.refs.red).value,
       green: ReactDOM.findDOMNode(this.refs.green).value,
-      blue: ReactDOM.findDOMNode(this.refs.blue).value,
+      blue: ReactDOM.findDOMNode(this.refs.blue).value
     });
   }
 

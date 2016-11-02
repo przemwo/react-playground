@@ -13,7 +13,7 @@ class App extends React.Component {
 
   update(e) {
     this.setState({
-      red: ReactDOM.findDOMNode(this.refs.red.refs.inp).value,
+      red: ReactDOM.findDOMNode(this.refs.red.refs.inp).value
     });
   }
 

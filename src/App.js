@@ -1,44 +1,38 @@
 import React from 'react';
-import './styles.css';
+import { Router, Route, Link, IndexRoute, browserHistory } from 'react-router';
+
+const Outer = (props) => {
+  console.log(1);
+  return <div><h1>Our Site</h1><Links />{props.children}</div>
+};
+const About = (props) => {
+  console.log(2);
+  return <div><h1>About</h1>{props.children}</div>
+};
+const Contact = () => {
+  console.log(3);
+  return <div><h1>Contact</h1></div>
+};
+
+const Links = () =>
+  <nav>
+    <Link activeStyle={{color: 'green'}} to="/">Home</Link>
+    <Link activeStyle={{color: 'green'}} to="/about">About</Link>
+    <Link activeClassName="active" to="/contact">Contact</Link>
+  </nav>
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      input: '/* add your jsx here */',
-      output: '',
-      err: ''
-    };
-    this.update = this.update.bind(this);
-  }
-  update(e) {
-    const code = e.target.value;
-    try {
-      this.setState({
-        output: babel.transform(code, {
-          stage: 0,
-          loose: 'all'
-        }).code,
-        err: ''
-      })
-    } catch (err) {
-      this.setState({ err: err.message })
-    }
   }
   render() {
     return(
-      <div>
-        <header>{this.state.err}</header>
-        <div className="container">
-          <textarea
-            onChange={this.update}
-            defaultValue={this.state.input}>
-          </textarea>
-          <pre>
-            {this.state.output}
-          </pre>
-        </div>
-      </div>
+      <Router history={ browserHistory }>
+        <Route path="/" component={Outer}>
+          <IndexRoute component={About}></IndexRoute>
+          <Route path="/contact" component={Contact}></Route>
+        </Route>
+      </Router>
     );
   }
 }
