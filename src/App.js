@@ -4,26 +4,23 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      date: new Date()
+      button: false
     };
-    this.tick = this.tick.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
-  componentDidMount() {
-    this.timerID = setInterval(this.tick, 1000);
-  }
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-  tick() {
-    this.setState((prevState, props) => ({
-      date: new Date()
+  toggle() {
+    this.setState((prevState) => ({
+      button: !prevState.button
     }));
   }
   render() {
     return(
       <div>
-        <h1>Hello!</h1>
-        <h2>It is {this.state.date.toLocaleTimeString()}</h2>
+        <h1>State is: {this.state.button.toString()}</h1>
+        <button
+          onClick={this.toggle}>
+          Click me!
+        </button>
       </div>
     );
   }
