@@ -1,7 +1,7 @@
-import { createStore } from 'redux';
+// import { createStore } from 'redux';
 
 // Reducer method
-export const counter = (state = 0, action = {}) => {
+export const counter = (state = 0, action) => {
   switch (action.type) {
     case 'INCREMENT':
       return state + 1;
@@ -10,6 +10,30 @@ export const counter = (state = 0, action = {}) => {
     default:
       return state;
   }
+};
+
+// Reimplementing Redux store
+const createStore = (reducer) => {
+  let state;
+  let listeners = [];
+
+  const getState = () => state;
+
+  const dispatch = (action) => {
+    state = reducer(state, action);
+    listeners.forEach(listener => listener());
+  };
+
+  const subscribe = (listener) => {
+    listeners.push(listener);
+    return () => {
+      listeners = listeners.filter(l => l !== listener);
+    };
+  };
+
+  dispatch({});
+
+  return { getState, subscribe, dispatch };
 };
 
 // Create store
