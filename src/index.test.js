@@ -19,7 +19,7 @@ describe('Our first test', () => {
       index.counter(1, { type: 'UNKNOWN_ACTION' })
     ).toEqual(1);
     expect(
-      index.counter(undefined, {})
+      index.counter(undefined)
     ).toEqual(0);
   });
   console.log('Passed!!!');

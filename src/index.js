@@ -1,16 +1,7 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import App from './App';
-// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-// import './styles.css';
+import { createStore } from 'redux';
 
-// ReactDOM.render(
-//   <App />,
-//   document.getElementById('app')
-// );
-
-export const counter = (state = 0, action) => {
-  
+// Reducer method
+export const counter = (state = 0, action = {}) => {
   switch (action.type) {
     case 'INCREMENT':
       return state + 1;
@@ -21,4 +12,21 @@ export const counter = (state = 0, action) => {
   }
 };
 
+// Create store
+const store = createStore(counter);
 
+// Create render method - shows current state
+const render = () => {
+  document.body.innerText = store.getState();
+};
+
+// Subscribe render method to every change of the state
+store.subscribe(render);
+
+// Initial call to render method
+render();
+
+// Add event to change state by dispatching an action
+document.addEventListener('click', () => {
+  store.dispatch({ type: 'INCREMENT' });
+});
