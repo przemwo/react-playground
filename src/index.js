@@ -1,4 +1,6 @@
-// import { createStore } from 'redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
 
 // Reducer method
 export const counter = (state = 0, action) => {
@@ -12,28 +14,15 @@ export const counter = (state = 0, action) => {
   }
 };
 
-// Reimplementing Redux store
-const createStore = (reducer) => {
-  let state;
-  let listeners = [];
-
-  const getState = () => state;
-
-  const dispatch = (action) => {
-    state = reducer(state, action);
-    listeners.forEach(listener => listener());
-  };
-
-  const subscribe = (listener) => {
-    listeners.push(listener);
-    return () => {
-      listeners = listeners.filter(l => l !== listener);
-    };
-  };
-
-  dispatch({});
-
-  return { getState, subscribe, dispatch };
+// React dump component
+const Counter = (props) => {
+  return(
+    <div>
+      <h1>{props.value}</h1>
+      <button onClick={props.onIncrement}>+</button>
+      <button onClick={props.onDecrement}>-</button>
+    </div>
+  );
 };
 
 // Create store
@@ -41,7 +30,19 @@ const store = createStore(counter);
 
 // Create render method - shows current state
 const render = () => {
-  document.body.innerText = store.getState();
+  ReactDOM.render(
+    <Counter
+      value={store.getState()}
+      onIncrement={() =>
+      store.dispatch({
+        type: 'INCREMENT'
+      })}
+      onDecrement={() =>
+      store.dispatch({
+        type: 'DECREMENT'
+      })} />,
+    document.getElementById('app')
+  );
 };
 
 // Subscribe render method to every change of the state
@@ -49,8 +50,3 @@ store.subscribe(render);
 
 // Initial call to render method
 render();
-
-// Add event to change state by dispatching an action
-document.addEventListener('click', () => {
-  store.dispatch({ type: 'INCREMENT' });
-});
