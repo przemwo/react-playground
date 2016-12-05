@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+// import { combineReducers } from 'redux';
 
 // todo reducer
 export const todo = (state, action) => {
@@ -48,13 +49,27 @@ export const visiblityFilter = (state = 'SHOW_ALL', action) => {
   }
 };
 
-// todoApp main reducer
-export const todoApp = (state = {}, action) => {
-  return {
-    todos: todos(state.todos, action),
-    visiblityFilter: visiblityFilter(state.visiblityFilter, action)
+// implementing combineReducers from scratch
+const combineReducers = (reducers) => {
+  return (state = {}, action) => {
+    return Object.keys(reducers).reduce((nextState, key) => {
+      nextState[key] = reducers[key](state[key], action);
+      return nextState;
+    }, {});
   };
 };
+
+// todoApp main reducer
+export const todoApp = combineReducers({
+  todos,
+  visiblityFilter
+});
+// export const todoApp = (state = {}, action) => {
+//   return {
+//     todos: todos(state.todos, action),
+//     visiblityFilter: visiblityFilter(state.visiblityFilter, action)
+//   };
+// };
 
 //create store and pass top reducer to it
 const store = createStore(todoApp);
