@@ -1,4 +1,5 @@
 import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -75,6 +76,7 @@ const Link = ({active, children, onClick}) => {
 
 class FilterLink extends React.Component {
   componentDidMount() {
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
       this.forceUpdate();
     });
@@ -84,6 +86,7 @@ class FilterLink extends React.Component {
   }
   render() {
     const props = this.props;
+    const { store } = this.context;
     const state = store.getState();
     return(
       <Link
@@ -99,13 +102,17 @@ class FilterLink extends React.Component {
     );
   }
 }
+FilterLink.contextTypes = {
+  store: React.PropTypes.object
+};
+
 
 const Footer = () => {
   return(
     <p>
       Show:
       {' '}
-      <FilterLink filter='SHOW_ALL'>All</FilterLink>
+      <FilterLink >All</FilterLink>
       {' '}
       <FilterLink filter='SHOW_ACTIVE'>Active</FilterLink>
       {' '}
@@ -138,7 +145,7 @@ const TodoList = ({todos, onTodoClick}) => {
   );
 };
 
-const AddTodo = () => {
+const AddTodo = (props, { store }) => {
   let input;
   return(
     <div>
@@ -160,6 +167,10 @@ const AddTodo = () => {
     </div>
   );
 };
+AddTodo.contextTypes = {
+  store: React.PropTypes.object
+};
+
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -174,6 +185,7 @@ const getVisibleTodos = (todos, filter) => {
 
 class VisibleTodoList extends React.Component {
   componentDidMount() {
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(() => {
       this.forceUpdate();
     });
@@ -183,6 +195,7 @@ class VisibleTodoList extends React.Component {
   }
   render() {
     const props = this.props;
+    const { store } = this.context;
     const state = store.getState();
     return(
       <TodoList
@@ -196,6 +209,9 @@ class VisibleTodoList extends React.Component {
     );
   }
 }
+VisibleTodoList.contextTypes = {
+  store: React.PropTypes.object
+};
 
 let nextTodoId = 0;
  const TodoApp = () => {
@@ -208,10 +224,9 @@ let nextTodoId = 0;
   );
 }
 
-//create store and pass top reducer to it
-const store = createStore(todoApp);
-
 ReactDOM.render(
-  <TodoApp />,
+  <Provider store={createStore(todoApp)}>
+    <TodoApp />
+  </Provider>,
   document.getElementById('app')
 );
