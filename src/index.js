@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // Action creators
-let nextTodoId = 0;
+let nextTodoId = 1;
 const addTodo = (text) => {
   return {
     type: 'ADD_TODO',
@@ -207,8 +207,16 @@ const TodoApp = () => {
   );
 }
 
+const initialTodos = {
+  todos: [{
+    id: 0,
+    text: 'Hello!',
+    completed: false
+  }]
+};
+
 ReactDOM.render(
-  <Provider store={createStore(todoApp)}>
+  <Provider store={createStore(todoApp, initialTodos)}>
     <TodoApp />
   </Provider>,
   document.getElementById('app')
