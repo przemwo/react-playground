@@ -2,6 +2,7 @@ import { createStore, combineReducers } from 'redux';
 import { Provider, connect } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import todoApp from './reducers/todoApp';
 
 // Action creators
 let nextTodoId = 1;
@@ -25,60 +26,6 @@ const toggleTodo = (id) => {
   }
 };
 
-
-// todo reducer
-export const todo = (state, action) => {
-  switch (action.type) {
-    case 'ADD_TODO':
-      return {
-        id: action.id,
-        text: action.text,
-        completed: false
-      };
-    case 'TOGGLE_TODO':
-      if(state.id !== action.id) {
-        return state;
-      }
-      return {
-        ...state,
-        completed: !state.completed
-      };
-    default:
-      return state;
-  }
-};
-
-// todos reducer
-export const todos = (state = [], action) => {
-  switch (action.type) {
-    case 'ADD_TODO':
-      return [
-        ...state,
-        todo(undefined, action)
-      ];
-    case 'TOGGLE_TODO':
-      return state.map(t => todo(t, action));
-    default:
-      return state;
-  }
-};
-
-// visiblity filter reducer
-export const visiblityFilter = (state = 'SHOW_ALL', action) => {
-  switch (action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return action.filter;
-    default:
-      return state;
-  }
-};
-
-// todoApp main reducer
-export const todoApp = combineReducers({
-  todos,
-  visiblityFilter
-});
-
 const Link = ({active, children, onClick}) => {
   if(active) {
     return(
@@ -99,7 +46,7 @@ const Link = ({active, children, onClick}) => {
 
 const mapStateToPropsLink = (state, ownProps) => {
   return {
-    active: ownProps.filter === state.visiblityFilter
+    active: ownProps.filter === state.visibilityFilter
   };
 };
 const mapDispatchToPropsLink = (dispatch, ownProps) => {
@@ -184,7 +131,7 @@ const getVisibleTodos = (todos, filter) => {
 
 const mapStateToProps = (state) => {
   return {
-    todos: getVisibleTodos(state.todos, state.visiblityFilter)
+    todos: getVisibleTodos(state.todos, state.visibilityFilter)
   };
 };
 const mapDispatchToProps = (dispatch) => {
