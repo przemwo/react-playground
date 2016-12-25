@@ -9,7 +9,8 @@
     "lint": "node_modules/.bin/esw webpack.config.* src tools",
     "lint:watch": "npm run lint -- --watch",
     "test": "mocha --reporter progress tools/testSetup.js \"src/**/*.test.js\"",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "generate-mock-data": "babel-node src/api/generateMockData"
   },
   "author": "Cory House",
   "license": "MIT",
@@ -18,6 +19,7 @@
     "babel-polyfill": "6.8.0",
     "bootstrap": "3.3.6",
     "jquery": "2.2.3",
+    "json-schema-faker": "^0.4.0",
     "react": "15.0.2",
     "react-dom": "15.0.2",
     "react-redux": "4.4.5",
