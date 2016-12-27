@@ -1,14 +1,15 @@
 import axios from 'axios';
+import getBaseUrl from './baseUrl';
 
-const BASE_URL = 'https://api.github.com/';
+const baseUrl = getBaseUrl();
 
-export function getUser(name = '') {
-  const url = `users/${name}`;
+export function getUsers() {
+  const url = `users`;
   return get(url);
 };
 
 function get (url) {
-  return axios.get(BASE_URL + url).then(onSuccess, onError);
+  return axios.get(baseUrl + url).then(onSuccess, onError);
 };
 
 function onSuccess(res) {
