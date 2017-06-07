@@ -1,60 +1,24 @@
 import expect from 'expect';
-import * as index from './index';
 
-const testToggleTodo = () => {
-  const stateBefore = [
-    {
-      id: 0,
-      text: 'Learn Redux',
-      completed: false
-    },
-    {
-      id: 1,
-      text: 'Go shopping',
-      completed: false
-    }
-  ];
-  const action = {
-    type: 'TOGGLE_TODO',
-    id: 1
-  };
-  const stateAfter = [
-    {
-      id: 0,
-      text: 'Learn Redux',
-      completed: false
-    },
-    {
-      id: 1,
-      text: 'Go shopping',
-      completed: true
-    }
-  ];
-  expect(index.todos(stateBefore, action)).toEqual(stateAfter);
+const counter = (state = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return state + 1;
+    case 'DECREMENT':
+     return state - 1;
+    default:
+      return state;
+  }
 };
 
-const testAddTodo = () => {
-  const stateBefore = [];
-  const action = {
-    type: 'ADD_TODO',
-    id: 0,
-    text: 'Learn Redux'
-  };
-  const stateAfter = [
-    {
-      id: 0,
-      text: 'Learn Redux',
-      completed: false
-    }
-  ];
-  expect(index.todos(stateBefore, action)).toEqual(stateAfter);
-};
-
-describe('Test ', () => {
-  it('testAddTodo should', testAddTodo);
-  // it('testToggleTodo should', testToggleTodo);
-  console.log('Passed!!!');
+describe('counter', () => {
+  it('increments, decrements', () => {
+    expect(counter(0, { type: 'INCREMENT' })).toEqual(1);
+    expect(counter(1, { type: 'INCREMENT' })).toEqual(2);
+    expect(counter(2, { type: 'DECREMENT' })).toEqual(1);
+    expect(counter(1, { type: 'DECREMENT' })).toEqual(0);
+    expect(counter(1, { type: 'SOMETHING_ELSE' })).toEqual(1);
+    expect(counter(undefined, {})).toEqual(0)
+    console.log('Passed!');
+  });
 });
-
-testToggleTodo();
-console.log('testToggleTodo passed');
